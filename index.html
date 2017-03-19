@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Fuse Reality2</title>
+
+  <script src="https://rawgit.com/aframevr/aframe/917c06889ee1f3f79b7b1bbd9eab9815f9512503/dist/aframe.min.js"></script>
+  <script
+    src="https://cdn.rawgit.com/AdaRoseEdwards/facetype-fonts-for-a-frame/master/Dawning-of-a-New-Day_Regular.js"></script>
+  <script
+    src="https://cdn.rawgit.com/AdaRoseEdwards/facetype-fonts-for-a-frame/master/Exo%202%20Black_Regular.js"></script>
+  <script
+    src="https://cdn.rawgit.com/AdaRoseEdwards/facetype-fonts-for-a-frame/master/Exo%202_Bold%20Italic.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="app.js"></script>
+  <script src="orbit.js"></script>
+  <script src="look-at-component.js"></script>
+
+</head>
+
+<body>
+<a-scene fog="type: linear; density: .05; color: #000000; far: 40; near: 20">
+<!--<a-scene>-->
+
+  <a-assets>
+    <a-mixin id="orbit" attribute="rotation" to="0 360 0" repeat="indefinite" easing="linear" dur="3000"></a-mixin>
+
+    <img id="pink" src="https://img.gs/bbdkhfbzkk/stretch/http://i.imgur.com/1hyyIUi.jpg" crossorigin="anonymous" />
+    <img src="https://img.gs/bbdkhfbzkk/stretch/https://i.imgur.com/25P1geh.png" id="grid" crossorigin="anonymous">
+    <img src="https://img.gs/bbdkhfbzkk/2048x1024,stretch/http://i.imgur.com/WMNH2OF.jpg" id="chrome"
+         crossorigin="anonymous">
+    <img id="sky" src="https://img.gs/bbdkhfbzkk/2048x2048,stretch/http://i.imgur.com/WqlqEkq.jpg"
+         crossorigin="anonymous" />
+
+    <a-asset-item id="Pyramid-obj" src="Pyramid.obj"></a-asset-item>
+    <a-asset-item id="Pyramid-mtl" src="Pyramid.mtl"></a-asset-item>
+
+    <audio id="blip1" src="on_you.mp3"></audio>
+    <img id="stars" src="stars.jpg">
+
+  </a-assets>
+
+  <a-plane src="#stars" height="100" width="100" rotation="90 0 0" position="0 40 0"></a-plane>
+
+
+  <a-entity position="0 .6 3">
+    <a-camera camera class="camera" collider-check>
+      <a-entity raycaster="far: .3; objects: .collidable" cursor="fuse: true; fuseTimeout: 100"
+                position="0 0 -0.75"></a-entity>
+
+      <a-entity cursor="fuse: true; fuseTimeout: 500" position="0 0 -1"
+                geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03;" material="color: #CCC; shader: flat;">
+      </a-entity>
+
+    </a-camera>
+  </a-entity>
+
+  <!--Pyramid-->
+  <a-entity id="pyramid" obj-model="obj: #Pyramid-obj; mtl: #Pyramid-mtl" position="0 0 -20"
+           >
+    <!--<a-animation attribute="rotation" dur="5000" to="0 360 0" repeat="indefinite"></a-animation>-->
+  </a-entity>
+
+  <!--Moon-->
+  <a-entity position="0 0 0">
+    <a-animation mixin="orbit" dur="220000"></a-animation>
+    <a-sphere id="moon" class="collidable" cursor-listener position="6 38 -15" scale="7 7 7"
+              sound__1="on: mouseenter; src: #blip1;"
+              sound__2="on: click; src: #blip1;" visible="true" src="moon.png;">
+    </a-sphere>
+  </a-entity>
+
+  <!--Light-->
+
+  <a-light color="silver" intensity="3" type="directional" position="0 -40 0"></a-light>
+
+  <a-light class="light" color="silver" intensity="40" type="directional" position="0 10 -5">
+
+    <a-animation attribute="color" dur="1000" direction="alternate" from="#551A8B"
+                 to="#00ff00" repeat="indefinite" begin="fade"></a-animation>
+    <a-animation attribute="color" dur="1000" direction="alternate" from="#ff0000"
+                 to="#C2C45B" repeat="indefinite" begin="fade2" delay="500"></a-animation>
+  </a-light>
+
+
+  <!--<a-light color="silver" intensity="1" type="ambient" position="0 0 -20">-->
+
+  <!--</a-light>-->
+
+  <!--Sky-->
+  <a-sky class="black-sky" color="black" rotation="0 -90 0" visible="true">
+    <a-animation attribute="visible" begin="fade" to="false"></a-animation>
+  </a-sky>
+
+  <a-sky class="white-sky" color="white" rotation="0 -90 0" visible="false">
+    <a-animation attribute="visible" begin="fade" to="true"></a-animation>
+  </a-sky>
+
+  <!--ground-->
+  <a-entity class="teleportTarget" position="0 0 0"
+            geometry="primitive: plane; width: 10000; height: 10000;" rotation="-90 0 0"
+            material="src: #grid; repeat: 10000 10000; transparent: true; metalness:0.6; roughness: 0.4; sphericalEnvMap: #sky;"></a-entity>
+
+
+</a-scene>
+</body>
+</html>
