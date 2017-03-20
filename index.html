@@ -21,7 +21,7 @@
 
 <body>
 <a-scene fog="type: linear; density: .05; color: #000000; far: 40; near: 20">
-<!--<a-scene>-->
+  <!--<a-scene>-->
 
   <a-assets>
     <a-mixin id="orbit" attribute="rotation" to="0 360 0" repeat="indefinite" easing="linear" dur="3000"></a-mixin>
@@ -36,13 +36,13 @@
     <a-asset-item id="Pyramid-obj" src="Pyramid.obj"></a-asset-item>
     <a-asset-item id="Pyramid-mtl" src="Pyramid.mtl"></a-asset-item>
 
-    <audio id="blip1" src="on_you.mp3"></audio>
+    <audio id="blip1" src="on_you.mp3" preload="auto"></audio>
     <img id="stars" src="stars.jpg">
+    <img id="sand" src="sand2.jpg">
 
   </a-assets>
 
   <a-plane src="#stars" height="100" width="100" rotation="90 0 0" position="0 40 0"></a-plane>
-
 
   <a-entity position="0 .6 3">
     <a-camera camera class="camera" collider-check>
@@ -57,8 +57,7 @@
   </a-entity>
 
   <!--Pyramid-->
-  <a-entity id="pyramid" obj-model="obj: #Pyramid-obj; mtl: #Pyramid-mtl" position="0 0 -20"
-           >
+  <a-entity id="pyramid" obj-model="obj: #Pyramid-obj; mtl: #Pyramid-mtl" position="0 0 -20">
     <!--<a-animation attribute="rotation" dur="5000" to="0 360 0" repeat="indefinite"></a-animation>-->
   </a-entity>
 
@@ -66,25 +65,24 @@
   <a-entity position="0 0 0">
     <a-animation mixin="orbit" dur="220000"></a-animation>
     <a-sphere id="moon" class="collidable" cursor-listener position="6 38 -15" scale="7 7 7"
-              sound__1="on: mouseenter; src: #blip1;"
-              sound__2="on: click; src: #blip1;" visible="true" src="moon.png">
+              sound__2="on: click; src: #blip1;"
+              visible="true" src="moon.png">
     </a-sphere>
   </a-entity>
 
   <!--Light-->
 
-  <a-light color="silver" intensity="3" type="directional" position="0 -40 0"></a-light>
+  <a-light color="silver" intensity="6" type="directional" position="0 -30 0"></a-light>
 
-  <a-light class="light" color="silver" intensity="40" type="directional" position="0 10 -5">
+  <a-light class="light" color="silver" intensity="2" type="directional" position="0 10 5">
 
-    <a-animation attribute="color" dur="1000" direction="alternate" from="#551A8B"
+    <a-animation attribute="color" dur="2000" direction="alternate" from="#551A8B"
                  to="#00ff00" repeat="indefinite" begin="fade"></a-animation>
-    <a-animation attribute="color" dur="1000" direction="alternate" from="#ff0000"
-                 to="#C2C45B" repeat="indefinite" begin="fade2" delay="500"></a-animation>
+    <a-animation attribute="color" dur="2000" direction="alternate" from="#ff0000"
+                 to="#C2C45B" repeat="indefinite" begin="fade2" delay="1000"></a-animation>
   </a-light>
 
 
-  <!--<a-light color="silver" intensity="1" type="ambient" position="0 0 -20">-->
 
   <!--</a-light>-->
 
@@ -98,10 +96,11 @@
   </a-sky>
 
   <!--ground-->
-  <a-entity class="teleportTarget" position="0 0 0"
-            geometry="primitive: plane; width: 10000; height: 10000;" rotation="-90 0 0"
-            material="src: #grid; repeat: 10000 10000; transparent: true; metalness:0.6; roughness: 0.4; sphericalEnvMap: #sky;"></a-entity>
+  <!--<a-entity class="teleportTarget" position="0 0 0"-->
+  <!--geometry="primitive: plane; width: 10000; height: 10000;" rotation="-90 0 0"-->
+  <!--material="src: #grid; repeat: 10000 10000; transparent: true; metalness:0.6; roughness: 0.4; sphericalEnvMap: #sky;"></a-entity>-->
 
+  <a-plane src="#sand" height="50" width="50" rotation="-90 0 0" position="0 0 0"></a-plane>
 
 </a-scene>
 </body>
