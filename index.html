@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Fuse Reality2</title>
+  <title>Fuse Reality Ltd.</title>
 
-  <script src="https://rawgit.com/aframevr/aframe/917c06889ee1f3f79b7b1bbd9eab9815f9512503/dist/aframe.min.js"></script>
+  <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
   <script
     src="https://cdn.rawgit.com/AdaRoseEdwards/facetype-fonts-for-a-frame/master/Dawning-of-a-New-Day_Regular.js"></script>
   <script
@@ -16,14 +16,25 @@
   <script src="app.js"></script>
   <script src="orbit.js"></script>
   <script src="look-at-component.js"></script>
+  <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
 
 </head>
 
 <body>
-<a-scene fog="type: linear; density: .05; color: #000000; far: 40; near: 20">
+<a-scene fog="type: linear; density: .05; color: #1f2021; far: 40; near: 20">
   <!--<a-scene>-->
 
   <a-assets>
+
+    <a-mixin id="text" class="text"
+             text="align: center; width: 6; color: blue;
+               value: Welcome to our virtual gallery. Check out our t-shirt and our case studies by clicking on them. To move around, stare at the green markers on the ground and you'll teleport there."></a-mixin>
+    <a-mixin
+      id="marker"
+      geometry="primitive: plane; width: 0.02; height: 0.02"
+      material="color: red"
+      ></a-mixin>
+
     <a-mixin id="orbit" attribute="rotation" to="0 360 0" repeat="indefinite" easing="linear" dur="3000"></a-mixin>
 
     <img id="pink" src="https://img.gs/bbdkhfbzkk/stretch/http://i.imgur.com/1hyyIUi.jpg" crossorigin="anonymous" />
@@ -38,27 +49,32 @@
 
     <audio id="blip1" src="on_you.mp3" preload="auto"></audio>
     <img id="stars" src="stars.jpg">
-    <img id="sand" src="sand2.jpg">
+    <img id="sand" src="sand1.jpg">
+
+    <img id="sky2" src="stars2.jpg">
 
   </a-assets>
 
-  <a-plane src="#stars" height="100" width="100" rotation="90 0 0" position="0 40 0"></a-plane>
+  <a-sky src="#sky2" material="fog: false"></a-sky>
 
-  <a-entity position="0 .6 3">
+  <a-entity position="0 2 3">
     <a-camera camera class="camera" collider-check>
-      <a-entity raycaster="far: .3; objects: .collidable" cursor="fuse: true; fuseTimeout: 100"
-                position="0 0 -0.75"></a-entity>
+      <!--<a-entity raycaster="far: .3; objects: .collidable" cursor="fuse: true; fuseTimeout: 100"-->
+      <!--position="0 0 -0.75"></a-entity>-->
 
-      <a-entity cursor="fuse: true; fuseTimeout: 500" position="0 0 -1"
-                geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03;" material="color: #CCC; shader: flat;">
-      </a-entity>
-
+      <!--<a-entity cursor="fuse: true; fuseTimeout: 500" position="0 0 -1"-->
+      <!--geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03;" material="color: #CCC; shader: flat;">-->
+      <!--</a-entity>-->
+      <a-cursor geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03;"
+                material="color: #CCC; shader: flat;"></a-cursor>
     </a-camera>
   </a-entity>
 
   <!--Pyramid-->
-  <a-entity id="pyramid" obj-model="obj: #Pyramid-obj; mtl: #Pyramid-mtl" position="0 0 -20">
-    <!--<a-animation attribute="rotation" dur="5000" to="0 360 0" repeat="indefinite"></a-animation>-->
+  <a-entity id="pyramid" obj-model="obj: #Pyramid-obj; mtl: #Pyramid-mtl" position="0 0 -20" scale=".5 .5 .5"
+            cursor-listener>
+    <a-animation begin="fade" attribute="rotation" dur="10000" to="0 360 0" repeat="indefinite"
+                 easing="ease-in-out"></a-animation>
   </a-entity>
 
   <!--Moon-->
@@ -78,29 +94,103 @@
 
     <a-animation attribute="color" dur="2000" direction="alternate" from="#551A8B"
                  to="#00ff00" repeat="indefinite" begin="fade"></a-animation>
-    <a-animation attribute="color" dur="2000" direction="alternate" from="#ff0000"
-                 to="#C2C45B" repeat="indefinite" begin="fade2" delay="1000"></a-animation>
+    <!--<a-animation attribute="color" dur="2000" direction="alternate" from="#ff0000"-->
+    <!--to="#C2C45B" repeat="indefinite" begin="fade2" delay="1000"></a-animation>-->
   </a-light>
 
+  <a-entity position="12 10 -12" scale="30 30 30"
+            text="color: white; value: Fuse Reality; font: https://cdn.aframe.io/fonts/SourceCodePro.fnt"></a-entity>
 
+  <a-entity visible="false" class="contact">
+    <a-entity position="13 3 -8" rotation="0 0 0"
+              geometry="primitive: plane; width: 4; height: 2"
+              material="color: black; side: double"
+              text="color: white; value: New York \n 330 Fifth Avenue,
+New York, NY 10001 \n +1 212 515-6600 \n Director Filippo Burbano Fantastichini; align: center;"></a-entity>
 
-  <!--</a-light>-->
+    <a-entity position="10 3 -8" rotation="0 0 0"
+              geometry="primitive: plane; width: 4; height: 2"
+              material="color: black; side: double"
+              text="color: white; value: Singapore \n 20 Handy Road,
+#03-01 Singapore 229236 \n +65 6876 7800 \n Managing Director/CEO Stefano Nicosia; align: center;"></a-entity>
 
-  <!--Sky-->
-  <a-sky class="black-sky" color="black" rotation="0 -90 0" visible="true">
-    <a-animation attribute="visible" begin="fade" to="false"></a-animation>
-  </a-sky>
+    <a-entity position="7 3 -8" rotation="0 0 0"
+              geometry="primitive: plane; width: 4; height: 2"
+              material="color: black; side: double"
+              text="color: white; value: Tokyo \n #204 2-10-17 Kitaaoyama, \n Minato-ku, Tokyo \n +81 (0)3 6434 9773 \n Director Federico Settimeli; align: center;"></a-entity>
 
-  <a-sky class="white-sky" color="white" rotation="0 -90 0" visible="false">
-    <a-animation attribute="visible" begin="fade" to="true"></a-animation>
-  </a-sky>
+    <a-entity position="10 4 -8" rotation="0 0 0"
+              geometry="primitive: plane; width: 4; height: 1"
+              material="color: black; side: double"
+              text="color: white; value: Info@fusereality.com; align: center;"></a-entity>
+  </a-entity>
+
+  <a-entity visible="false" class="about">
+    <a-entity position="-10 3 -7" rotation="-10 0 0"
+              geometry="primitive: plane; width: 4; height: 2"
+              material="color: black; side: double"
+              text="color: white; value: We are Fuse Reality.
+
+              A creative agency passionate about making your business, brand, and customers flourish all by cutting time focusing on the future.
+
+              We are always looking for new solutions, technologies combining our love and  altruism.; align: center;"></a-entity>
+  </a-entity>
+
+  <a-entity visible="true" class="test">
+    <a-entity position="-8 4 -3" rotation="-10 0 0"
+              geometry="primitive: plane; width: 1; height: 1"
+              material="color: black; side: double"
+              text="color: white; value: test123-A; font: https://cdn.aframe.io/fonts/SourceCodePro.fnt; align: center"></a-entity>
+    <a-entity position="-9 4 -3" rotation="-10 0 0"
+              geometry="primitive: plane; width: 1; height: 1"
+              material="color: black; side: double"
+              text="color: white; value: test123-B; font: https://cdn.aframe.io/fonts/Aileron-Semibold.fnt; align: center"></a-entity>
+    <a-entity position="-10 4 -3" rotation="-10 0 0"
+              geometry="primitive: plane; width: 1; height: 1"
+              material="color: black; side: double"
+              text="color: white; value: test123-C; font: 	https://cdn.aframe.io/fonts/DejaVu-sdf.fnt; align: center"></a-entity>
+    <a-entity position="-7 4 -3" rotation="-10 0 0"
+              geometry="primitive: plane; width: 1; height: 1"
+              material="color: black; side: double"
+              text="color: white; value: test123-D; font:https://cdn.aframe.io/fonts/Exo2Bold.fnt; align: center"></a-entity>
+    <a-entity position="-6 4 -3" rotation="-10 0 0"
+              geometry="primitive: plane; width: 1; height: 1"
+              material="color: black; side: double"
+              text="color: white; value: test123-E; font:https://cdn.aframe.io/fonts/Exo2SemiBold.fnt; align: center"></a-entity>
+    <a-entity position="-5 4 -3" rotation="-10 0 0"
+              geometry="primitive: plane; width: 1; height: 1"
+              material="color: black; side: double"
+              text="color: white; value: test123-F; font:https://cdn.aframe.io/fonts/KelsonSans.fnt; align: center"></a-entity>
+    <a-entity position="-4 4 -3" rotation="-10 0 0"
+              geometry="primitive: plane; width: 1; height: 1"
+              material="color: black; side: double"
+              text="color: white; value: test123-G; font:https://cdn.aframe.io/fonts/Monoid.fnt; align: center"></a-entity>
+    <a-entity position="-3 4 -3" rotation="-10 0 0"
+              geometry="primitive: plane; width: 1; height: 1"
+              material="color: black; side: double"
+              text="color: white; value: test123-H; font:https://cdn.aframe.io/fonts/mozillavr.fnt; align: center"></a-entity>
+    <a-entity position="-2 4 -3" rotation="-10 0 0"
+              geometry="primitive: plane; width: 1; height: 1"
+              material="color: black; side: double"
+              text="color: white; value: test123-I; font: https://cdn.aframe.io/fonts/Exo2SemiBold.fnt; align: center"></a-entity>
+  </a-entity>
+
+  <a-entity geometry="primitive: torusKnot; p: 3; q:7;" turn-on-contact
+            material="color: gold" position="10 8 -8" class="contact-icon"></a-entity>
+
+  <a-entity geometry="primitive: torusKnot; p: 3; q:7;" turn-on-about
+            material="color: gold" position="-10 8 -8" class="about-icon"></a-entity>
+
+  <a-octahedron color="gold" radius="5" position="-16 8 -8"></a-octahedron>
+  <a-tetrahedron color="gold" radius="5" position="16 20 -8"></a-tetrahedron>
+  <a-dodecahedron color="#FF926B" radius="5" position="0 20 -8"></a-dodecahedron>
 
   <!--ground-->
   <!--<a-entity class="teleportTarget" position="0 0 0"-->
   <!--geometry="primitive: plane; width: 10000; height: 10000;" rotation="-90 0 0"-->
   <!--material="src: #grid; repeat: 10000 10000; transparent: true; metalness:0.6; roughness: 0.4; sphericalEnvMap: #sky;"></a-entity>-->
 
-  <a-plane src="#sand" height="50" width="50" rotation="-90 0 0" position="0 0 0"></a-plane>
+  <a-plane src="#sand" height="100" width="100" repeat="10 10" rotation="-90 0 0" position="0 0 -10"></a-plane>
 
 </a-scene>
 </body>

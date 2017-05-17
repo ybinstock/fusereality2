@@ -7,9 +7,35 @@ AFRAME.registerComponent('cursor-listener', {
       document.querySelector(".white-sky").emit('fade');
       document.querySelector('.collidable').removeEventListener('cursor-listener', evt);
       console.log('hi');
-      document.querySelector('.collidable').removeEventListener('click', this);
+      removeEventListeners();
     }
 
     document.querySelector('.collidable').addEventListener('click', functionName);
+    function removeEventListeners(){
+      document.querySelector('.collidable').removeEventListener('click', functionName);
+    }
   }
 });
+
+
+AFRAME.registerComponent('turn-on-contact', {
+  init: function () {
+    var el = this.el;
+    document.querySelector('.contact-icon').addEventListener('click', function (evt) {
+      console.log('hi');
+      document.querySelector('.contact').setAttribute('visible', !document.querySelector('.contact').getAttribute('visible'));
+    });
+  }
+});
+
+
+AFRAME.registerComponent('turn-on-about', {
+  init: function () {
+    var el = this.el;
+    document.querySelector('.about-icon').addEventListener('click', function (evt) {
+      console.log('hello');
+      document.querySelector('.about').setAttribute('visible', !document.querySelector('.about').getAttribute('visible'));
+    });
+  }
+});
+
